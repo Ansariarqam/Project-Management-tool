@@ -1,0 +1,52 @@
+class User:
+    def _init_(self, username):
+        self.username = username
+        self.tasks = []
+
+    def assign_task(self, task, assignee):
+        task.assign(assignee)
+        self.tasks.append(task)
+
+class Task:
+    def _init_(self, title, description):
+        self.title = title
+        self.description = description
+        self.assignee = None
+
+    def assign(self, assignee):
+        self.assignee = assignee
+
+class Project:
+    def _init_(self, name):
+        self.name = name
+        self.users = []
+        self.tasks = []
+
+    def add_user(self, user):
+        self.users.append(user)
+
+    def create_task(self, title, description):
+        task = Task(title, description)
+        self.tasks.append(task)
+        return task
+
+
+# Example usage:
+if _name_ == "__main__":
+    project = Project("Social Media Project")
+
+    user1 = User("User1")
+    user2 = User("User2")
+
+    project.add_user(user1)
+    project.add_user(user2)
+
+    task1 = project.create_task("Task 1", "Description of Task 1")
+    task2 = project.create_task("Task 2", "Description of Task 2")
+
+    user1.assign_task(task1, user2)
+
+    for user in project.users:
+        print(f"{user.username}'s Tasks:")
+        for task in user.tasks:
+            print(f"- {task.title} (Assigned to: {task.assignee.username if task.assignee else 'Unassigned'})")
